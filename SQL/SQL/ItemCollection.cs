@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SQL
 {
-    class ItemCollector
+    class ItemCollection
     {
         //this creates items into a collection
-        public ItemCollector(int[] itemID)
+        public ItemCollection(int[] itemID)
         {
 
         }

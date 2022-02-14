@@ -8,3 +8,5 @@ C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQ
 C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.csproj.CopyComplete
 C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.exe
 C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.pdb
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\Newtonsoft.Json.dll
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\Newtonsoft.Json.xml
