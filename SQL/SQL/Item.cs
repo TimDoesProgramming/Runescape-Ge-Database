@@ -8,17 +8,69 @@ using Newtonsoft.Json.Linq;
 using System.Threading;
 
 
-namespace SQL
+namespace SQL  
 {
-    class Item
+    class Item : Iitem
     {
+        public string Name
+        {
+            get;
+
+            set;
+        }
+        public int ID
+        {
+            get;
+
+            set;
+        }
+        public int Price
+        {
+            get; 
+
+            set;
+        }
+
+
+        public Item()
+        {
+
+        }
         //this needs to create the item object
         public Item(int id)
         {
+
+            JObject json = ItemJson(id);
+            try
+            {
+                if (json.Equals((JObject)default))
+                    Console.WriteLine("the jason was");
+                else
+                {
+                    Name = json["item"]["name"].ToString();
+                    ID = Convert.ToInt32(json["item"]["id"]);
+                    Price = Convert.ToInt32(json["item"]["current"]["price"]);
+                    Console.WriteLine("Name: {0}, Price: {1}", Name, Price);
+                }
+                
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("item ID {0} has error: {1}", id, e.Message);
+            }
+        }
+        // this needs to take the information and store it
+        public void Add(int itemID)
+        {
+            //if(this.)
+        }
+        private JObject ItemJson(int id)
+        {
             string url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + id.ToString();
-            string preJson ="";
+            string preJson = "";
             bool exc = true;
             int count = 0;
+            JObject json = (JObject)default;
 
             //probably needs to have a check to see if the text is real
             using (WebClient wc = new WebClient())
@@ -34,13 +86,9 @@ namespace SQL
                         preJson = wc.DownloadString(url);
 
                         //converts the string into a json object
-                        JObject json = JObject.Parse(preJson);
-
-                        
-
-                        Console.WriteLine("{0}", json["item"]["name"]);
+                        json = JObject.Parse(preJson); 
                     }
-                    catch(WebException e)
+                    catch (WebException e)
                     {
                         //The WebException.Response property returns a HtppWebResponse object
                         //https://docs.microsoft.com/en-us/dotnet/api/system.net.httpwebresponse?view=net-6.0
@@ -48,8 +96,8 @@ namespace SQL
                         HttpWebResponse httpResponse = (HttpWebResponse)e.Response;
 
 
-                        
-                        if((int)httpResponse.StatusCode != 404 && count < 3)
+
+                        if ((int)httpResponse.StatusCode != 404 && count < 3)
                         {
                             Thread.Sleep(1000);
                             exc = true;
@@ -63,16 +111,18 @@ namespace SQL
                     }
 
                 } while (exc);
-                
+
             }
-            
-            
-           
+            return json;
         }
-        // this needs to take the information and store it
-        public void Add(int itemID)
+
+        public bool isGEItem(int id)
         {
-            //if(this.)
+            if (ItemJson(id).Equals((JObject)default))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
