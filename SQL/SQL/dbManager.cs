@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 namespace SQL
 {
-    class dbManager
+    public static class dbManager
     {
 
 
-        private void Connect()
+        public static void Connect()
         {
            
            try
@@ -20,8 +20,7 @@ namespace SQL
                builder.UserID = "sa";
                builder.Password = "admin123";
                builder.InitialCatalog = "PracticeSQL";
-               Console.WriteLine("1");
-               Console.ReadLine();
+
                using (SqlConnection conn = new SqlConnection())
                {
                    conn.ConnectionString = builder.ConnectionString;
@@ -47,8 +46,7 @@ namespace SQL
     
         private static string GetConnectionString()
         {
-            // To avoid storing the connection string in your code,
-            // you can retrieve it from a configuration file.
+
             return "Server=(local);Integrated Security=SSPI;" +
                 "Initial Catalog=PracticeSQL";
         }
