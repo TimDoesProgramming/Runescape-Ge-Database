@@ -8,42 +8,32 @@ namespace SQL
 {
     public static class dbManager
     {
+        private static SqlConnection conn;
+        private static SqlConnectionStringBuilder builder;
 
 
-        public static void Connect()
+        static dbManager()
         {
-           
-           try
-           {
-               SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-               builder.DataSource = "LAPTOP-B8Q8GRIK";
-               builder.UserID = "sa";
-               builder.Password = "admin123";
-               builder.InitialCatalog = "PracticeSQL";
-
-               using (SqlConnection conn = new SqlConnection())
-               {
-                   conn.ConnectionString = builder.ConnectionString;
-                   conn.Open();
-                    
-                   Console.WriteLine("State: {0}", conn.State);  
-                   Console.WriteLine("ConnectionString: {0}",
-                       conn.ConnectionString);
-
-               }
-
-
-               Console.WriteLine("success");
-               Console.ReadLine();
-           }
-           catch(SqlException e)
-           {
-               Console.WriteLine(e.ToString());
-           }
-       
+            conn = new SqlConnection();
+            builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "LAPTOP-B8Q8GRIK";
+            builder.UserID = "sa";
+            builder.Password = "admin123";
+            builder.InitialCatalog = "PracticeSQL";
+            conn.ConnectionString = builder.ConnectionString;
         }
-
-    
+        static void setDB(string dataSource, string userID, string password, string initialCatalog)
+        {
+            builder.DataSource = dataSource;
+            builder.UserID = userID;
+            builder.Password = password;
+            builder.InitialCatalog = initialCatalog;
+            conn.ConnectionString = builder.ConnectionString;
+        }
+        public static void query(string q)
+        {
+              
+        }
         private static string GetConnectionString()
         {
 

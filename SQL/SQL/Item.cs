@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace SQL  
 {
-    class Item : Iitem
+    class Item
     {
         public string Name
         {
@@ -64,13 +64,15 @@ namespace SQL
         {
             //if(this.)
         }
-        private JObject ItemJson(int id)
+
+
+        private static JObject ItemJson(int id)
         {
             string url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + id.ToString();
             string preJson = "";
             bool exc = true;
             int count = 0;
-            JObject json = (JObject)default;
+            JObject json = null;
 
             //probably needs to have a check to see if the text is real
             using (WebClient wc = new WebClient())
@@ -86,7 +88,9 @@ namespace SQL
                         preJson = wc.DownloadString(url);
 
                         //converts the string into a json object
-                        json = JObject.Parse(preJson); 
+                        json = JObject.Parse(preJson);
+
+                        
                     }
                     catch (WebException e)
                     {
@@ -116,9 +120,21 @@ namespace SQL
             return json;
         }
 
-        public bool isGEItem(int id)
+
+        public static List<int> GetList()
         {
-            if (ItemJson(id).Equals((JObject)default))
+            List<int> itemIDs = new List<int>();
+            
+            for (int i = 1; i < 26154; i++)
+            {
+                if (isGEItem(i))
+                    itemIDs.Add(i);
+            }
+            return itemIDs;
+        }
+        public static bool isGEItem(int id)
+        {
+            if (ItemJson(id) ==  null)
             {
                 return false;
             }

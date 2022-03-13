@@ -15,19 +15,8 @@ namespace SQL
         public static List<int> itemList;
 
         //Gets a list of valid item ids
-        private static List<int> GetList()
-        {
-            List<int> itemIDs = new List<int>();
-            Iitem json = new Item();
-
-            for (int i = 1; i < 26154; i++)
-            {
-                if(json.isGEItem(i))
-                    itemIDs.Add(i);
-            }
-            return itemIDs;
-        }
-        public static void ListToFile()
+        
+        public static void GenerateList()
         {
             //to be implemented
         }
