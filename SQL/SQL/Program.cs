@@ -12,12 +12,9 @@ namespace SQL
     {
         static void Main(string[] args)
         {
-        
-            Item item = new Item(30);
-
 
             Console.ReadLine();
-       
 
+        }
     }
 }

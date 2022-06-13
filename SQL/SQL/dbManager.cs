@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Newtonsoft.Json.Linq;
+
+
 namespace SQL
 {
     public static class dbManager
@@ -19,10 +22,11 @@ namespace SQL
             builder.DataSource = "LAPTOP-B8Q8GRIK";
             builder.UserID = "sa";
             builder.Password = "admin123";
-            builder.InitialCatalog = "PracticeSQL";
+            builder.InitialCatalog = "ExchangeDB";
             conn.ConnectionString = builder.ConnectionString;
         }
-        static void setDB(string dataSource, string userID, string password, string initialCatalog)
+        //dunno if i want this public
+        private static void setDB(string dataSource, string userID, string password, string initialCatalog)
         {
             builder.DataSource = dataSource;
             builder.UserID = userID;
@@ -30,13 +34,49 @@ namespace SQL
             builder.InitialCatalog = initialCatalog;
             conn.ConnectionString = builder.ConnectionString;
         }
-        public static void query(string q)
+        public static void WriteQuery(string q)
         {
-              
+            using (conn)
+            {
+                SqlCommand comm = new SqlCommand(q, conn);
+                conn.Open();
+                try
+                {
+                    comm.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
+        public static void WriteQuery(SqlCommand c)
+        {
+            using (conn)
+            {
+                
+                conn.Open();
+                try
+                {
+                   c.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
+        public static void Update(string dbName)
+        {
+
+        }
+
+        public static void Insert(JObject json)
+        {
+
         }
         private static string GetConnectionString()
         {
-
             return "Server=(local);Integrated Security=SSPI;" +
                 "Initial Catalog=PracticeSQL";
         }

@@ -1,0 +1,6 @@
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\GeDB.csprojAssemblyReference.cache
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.gui.resources
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\GeDB.csproj.GenerateResource.cache
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\GeDB.csproj.CoreCompileInputs.cache
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.exe
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.pdb

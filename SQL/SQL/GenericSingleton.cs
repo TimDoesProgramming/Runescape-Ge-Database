@@ -36,7 +36,7 @@ namespace SQL
             }
                 
         }
-        public static
+        
 
     }
 }

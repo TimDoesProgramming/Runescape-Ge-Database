@@ -6,63 +6,15 @@ using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using System.Text.RegularExpressions;
 
-
-namespace SQL  
+namespace SQL
 {
-    class Item
+    static class JsonFunc
     {
-        public string Name
-        {
-            get;
-            set;
-        }
-        public int ID
-        {
-            get;
-            set;
-        }
-        public int Price
-        {
-            get; 
-
-            set;
-        }
-        public JObject Json
-        {
-            get;
-            set;
-        }
-
-        public Item()
-        {
-
-        }
-        //this needs to create the item object
-        public Item(JObject json)
-        {
-
-            if (json.Equals((JObject)default))
-                Console.WriteLine("the jason was empty");
-            else
-            {
-                Name = json["item"]["name"].ToString();
-                ID = Convert.ToInt32(json["item"]["id"]);
-                Price = Convert.ToInt32(JsonFunc.ReformatJson(json["item"]["current"]["price"].ToString()));
-                Json = json;
-                Console.WriteLine("Name: {0}, Price: {1}", Name, Price);
-
-            }
-
-        }
-        // this needs to take the information and store it
-        public void Add(int itemID)
-        {
-            //if(this.)
-        }
 
 
-        private static JObject ItemJson(int id)
+        public static JObject ItemJson(int id)
         {
             string url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + id.ToString();
             string preJson = "";
@@ -87,7 +39,7 @@ namespace SQL
                         //converts the string into a json object
                         json = JObject.Parse(preJson);
 
-                        
+
                     }
                     catch (WebException e)
                     {
@@ -117,25 +69,43 @@ namespace SQL
             return json;
         }
 
+        //three issues, commas, decimals, and units
+        //commas in items that are 4 digits
+        //decimals in items that have units
+        //units in items over 10,000 gold
 
-        public static List<int> GetList()
+        public static string ReformatJson(string incoming)
         {
-            List<int> itemIDs = new List<int>();
-            
-            for (int i = 1; i < 26154; i++)
+
+            StringBuilder str = new StringBuilder(11);
+            incoming.ToLower();
+
+            foreach(char c in incoming)
             {
-                if (isGEItem(i))
-                    itemIDs.Add(i);
+
+                if (c != ',' || c != '.')
+                {
+                    switch (c)
+                    {
+                        case 'k':
+                            str.Append('0', 2);
+                            break;
+                        case 'm':
+                            str.Append('0', 5);
+                            break;
+                        case 'b':
+                            str.Append('0', 8);
+                            break;
+                        default:
+                            str.Append(c);
+                            break;
+                    }
+                    
+                }
             }
-            return itemIDs;
-        }
-        public static bool isGEItem(int id)
-        {
-            if (ItemJson(id) ==  null)
-            {
-                return false;
-            }
-            return true;
+           
+            return str.ToString();
         }
     }
+
 }
