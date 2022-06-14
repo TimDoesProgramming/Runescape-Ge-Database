@@ -4,3 +4,11 @@ C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQ
 C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\GeDB.csproj.CoreCompileInputs.cache
 C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.exe
 C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\SQL.pdb
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\SQL.exe.config
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\SQL.exe
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\SQL.pdb
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\Newtonsoft.Json.dll
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\System.Data.SqlClient.dll
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\Newtonsoft.Json.xml
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\bin\Debug\System.Data.SqlClient.xml
+C:\Users\alban\Documents\Life\Work\KEYS\Code from time at keys\github\SQL\SQL\SQL\obj\Debug\GeDB.csproj.CopyComplete

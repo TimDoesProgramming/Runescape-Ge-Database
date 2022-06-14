@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+
 
 
 namespace SQL
@@ -12,6 +12,8 @@ namespace SQL
     {
         static void Main(string[] args)
         {
+            dbManager.WriteQuery(CommonQuery.GetInsertString(), JsonFunc.GetFormattedJson(11802));
+            
 
             Console.ReadLine();
 

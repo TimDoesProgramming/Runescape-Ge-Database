@@ -10,12 +10,12 @@ namespace SQL
     static class ItemList
     {
         //this turns a list of items into a collection
-        public static List<int> itemList;
+        private static List<int> itemList;
 
         //Gets a list of valid item ids
-        public static void GenerateList()
+        public static void GenerateList(int id)
         {
-            //to be implemented
+            
         }
 
 

@@ -12,11 +12,19 @@ namespace SQL
 {
     static class JsonFunc
     {
+        /*
+         Dependencies: Method GetJson() and Method ReformatJson
+             
+             
+        */
 
-
-        public static JObject ItemJson(int id)
+        public static JObject GetFormattedJson(int itemNum)
         {
-            string url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + id.ToString();
+            return ReformatJson(GetJson(itemNum));
+        }
+        public static JObject GetJson(int itemNum)
+        {
+            string url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + itemNum.ToString();
             string preJson = "";
             bool exc = true;
             int count = 0;
@@ -34,11 +42,12 @@ namespace SQL
                     {
                         exc = false;
 
+                       
                         preJson = wc.DownloadString(url);
 
                         //converts the string into a json object
                         json = JObject.Parse(preJson);
-
+                        
 
                     }
                     catch (WebException e)
@@ -69,12 +78,24 @@ namespace SQL
             return json;
         }
 
+
+
         //three issues, commas, decimals, and units
         //commas in items that are 4 digits
         //decimals in items that have units
         //units in items over 10,000 gold
+        public static JObject ReformatJson(JObject json)
+        {
+            if(json != null)
+            {
+                json["item"]["members"] = ReformatJsonMembers(json["item"]["members"].ToString());
+                json["item"]["current"]["price"] = ReformatJsonPrice(json["item"]["current"]["price"].ToString());
+                json["item"]["today"]["price"] = ReformatJsonPrice(json["item"]["today"]["price"].ToString());
+            }
 
-        public static string ReformatJson(string incoming)
+            return json;
+        }
+        public static string ReformatJsonPrice(string incoming)
         {
 
             StringBuilder str = new StringBuilder(11);
@@ -83,7 +104,7 @@ namespace SQL
             foreach(char c in incoming)
             {
 
-                if (c != ',' || c != '.')
+                if (c != ',' && c != '.'&& c!=' ')
                 {
                     switch (c)
                     {
@@ -106,6 +127,21 @@ namespace SQL
            
             return str.ToString();
         }
+        public static string ReformatJsonMembers(string incoming)
+        {
+            string result;
+
+            if (incoming == "true")
+                result = "1";
+            else if (incoming == "false")
+                result = "0";
+            else
+                result = "NULL";
+
+            return result;
+        }
+
+        
     }
 
 }

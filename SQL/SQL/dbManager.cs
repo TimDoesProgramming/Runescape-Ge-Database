@@ -50,6 +50,30 @@ namespace SQL
                 }
             }
         }
+        public static void WriteQuery(string q, JObject json)
+        {
+            using (conn)
+            {
+                
+                conn.Open();
+                try
+                {
+                    using (SqlCommand comm = new SqlCommand(q, conn))
+                    {
+                       
+                        comm.Parameters.Add(new SqlParameter("json", json.ToString()));
+                        comm.ExecuteNonQuery();
+                    }
+                        
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            Console.WriteLine("If no message above, then it's a success");
+
+        }
         public static void WriteQuery(SqlCommand c)
         {
             using (conn)

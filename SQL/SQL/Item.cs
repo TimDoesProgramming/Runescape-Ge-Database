@@ -43,14 +43,14 @@ namespace SQL
         {
 
             if (json.Equals((JObject)default))
-                Console.WriteLine("the jason was empty");
+                Console.WriteLine("the json was empty");
             else
             {
                 Name = json["item"]["name"].ToString();
                 ID = Convert.ToInt32(json["item"]["id"]);
-                Price = Convert.ToInt32(JsonFunc.ReformatJson(json["item"]["current"]["price"].ToString()));
+                Price = Convert.ToInt32(json["item"]["current"]["price"].ToString());
                 Json = json;
-                Console.WriteLine("Name: {0}, Price: {1}", Name, Price);
+                Console.WriteLine("Name: {0}, Price: {1} ", Name, Price);
 
             }
 

@@ -11,22 +11,47 @@ namespace SQL
 {
     static class CommonQuery
     {
+
+
+        public static string GetUpdateString()
+        {
+            string query;
+
+            query = 
+                @"UPDATE ge.items
+                    SET 
+                    name = json.name,
+                    surname = json.price,
+                    member = json.change,
+                    members = json.members
+                "+ GetFromOpenJson()+@"
+                    WHERE ge.items.itemNum = json.itemNum";
+
+            return query;
+        }
+
+        public static string GetFromOpenJson()
+        {
+            return @" 
+                FROM OPENJSON(@json)
+                WITH(
+                itemNum	    INT				'strict $.item.id',	
+                name		VARCHAR(200)	'$.item.name',       
+                price	    INT				'$.item.current.price',
+                change	    INT				'$.item.today.price',
+                members	    BIT				'$.item.members')";
+        }
+
         //this function returns the schema for creating a table with json object
         //should take an SQL parameter 
-        public static string GetInsertString(string param)
+        public static string GetInsertString()
         {
-            string schema;
+            string query;
 
-            schema = @"SELECT *
-              FROM OPENJSON("+param+@")
-              WITH(
-              itemNum   INT             'strict $.item.id',
-              name      DATETIME        '$.Order.Date',
-              Price     VARCHAR(200)    '$.item.current.price',
-              trend30   real            '$.Item.Quantity'
-                
-              AS JSON)";
-            return schema;
+            query = @"
+                INSERT INTO ge.items(itemNum, name, price, change, members)
+                SELECT * "+ GetFromOpenJson();
+            return query;
         }
         public static string GetCreateString(string dbName)
         {
