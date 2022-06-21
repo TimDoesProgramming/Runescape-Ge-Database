@@ -7,7 +7,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 
-namespace SQL
+namespace GeDB
 {
     interface Iitem
     {

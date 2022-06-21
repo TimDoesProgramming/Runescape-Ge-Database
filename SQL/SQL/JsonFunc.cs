@@ -3,28 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Threading;
-using System.Text.RegularExpressions;
+using System.Text.Json;
+using System.Net;
 
-namespace SQL
+namespace GeDB
 {
-    static class JsonFunc
+    class JsonFunc
     {
-        /*
-         Dependencies: Method GetJson() and Method ReformatJson
-             
-             
-        */
+        
+        protected static void Repeat(ref int count, int repeat, ref bool exc)
+        {
 
-        public static JObject GetFormattedJson(int itemNum)
-        {
-            return ReformatJson(GetJson(itemNum));
+            if (count < repeat)
+            {
+                Console.WriteLine("Hit API call limit, retrying: {0} ", count + 1);
+                Thread.Sleep(30000);
+                exc = true;
+                count++;
+            }
         }
-        public static JObject GetJson(int itemNum)
+        public static JObject GetJson(string url)
         {
-            string url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + itemNum.ToString();
+
             string preJson = "";
             bool exc = true;
             int count = 0;
@@ -36,19 +38,17 @@ namespace SQL
             {
                 //the website writes the json as text
                 //this function downloads the string from the url
+                wc.Headers.Add("User-Agent", "Creating a flipping program - Hi_Im_Tim#1648");
                 do
                 {
                     try
                     {
                         exc = false;
 
-                       
                         preJson = wc.DownloadString(url);
 
                         //converts the string into a json object
                         json = JObject.Parse(preJson);
-                        
-
                     }
                     catch (WebException e)
                     {
@@ -58,18 +58,25 @@ namespace SQL
                         HttpWebResponse httpResponse = (HttpWebResponse)e.Response;
 
 
-
-                        if ((int)httpResponse.StatusCode != 404 && count < repeat)
+                        if ((int)httpResponse.StatusCode != 404)
                         {
-                            Thread.Sleep(1000);
-                            exc = true;
-                            count++;
+                            Repeat(ref count, repeat, ref exc);
                         }
 
                         //The StatusCode property has the string value
                         //When cast to into and int, it also has the numeric code associated
-                        Console.WriteLine((int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
                         Console.WriteLine(e.Message);
+                    }
+                    catch (Newtonsoft.Json.JsonReaderException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Repeat(ref count, repeat, ref exc);
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Repeat(ref count, repeat, ref exc);
                     }
 
                 } while (exc);
@@ -78,70 +85,15 @@ namespace SQL
             return json;
         }
 
-
-
-        //three issues, commas, decimals, and units
-        //commas in items that are 4 digits
-        //decimals in items that have units
-        //units in items over 10,000 gold
-        public static JObject ReformatJson(JObject json)
-        {
-            if(json != null)
-            {
-                json["item"]["members"] = ReformatJsonMembers(json["item"]["members"].ToString());
-                json["item"]["current"]["price"] = ReformatJsonPrice(json["item"]["current"]["price"].ToString());
-                json["item"]["today"]["price"] = ReformatJsonPrice(json["item"]["today"]["price"].ToString());
-            }
-
-            return json;
-        }
-        public static string ReformatJsonPrice(string incoming)
-        {
-
-            StringBuilder str = new StringBuilder(11);
-            incoming.ToLower();
-
-            foreach(char c in incoming)
-            {
-
-                if (c != ',' && c != '.'&& c!=' ')
-                {
-                    switch (c)
-                    {
-                        case 'k':
-                            str.Append('0', 2);
-                            break;
-                        case 'm':
-                            str.Append('0', 5);
-                            break;
-                        case 'b':
-                            str.Append('0', 8);
-                            break;
-                        default:
-                            str.Append(c);
-                            break;
-                    }
-                    
-                }
-            }
-           
-            return str.ToString();
-        }
-        public static string ReformatJsonMembers(string incoming)
-        {
-            string result;
-
-            if (incoming == "true")
-                result = "1";
-            else if (incoming == "false")
-                result = "0";
-            else
-                result = "NULL";
-
-            return result;
-        }
-
         
-    }
+        protected static string GetJagexURL(int itemID)
+        {
+            return "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + itemID.ToString();
+        }
 
+        protected static string GetWikiURL()
+        {
+            return "https://prices.runescape.wiki/api/v1/osrs/latest";
+        }
+    }
 }

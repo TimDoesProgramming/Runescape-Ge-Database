@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace SQL
+namespace GeDB
 {
     static class ItemList
     {

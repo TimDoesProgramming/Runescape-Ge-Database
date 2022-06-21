@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SQL
+namespace GeDB
 {
     public partial class gui : Form
     {

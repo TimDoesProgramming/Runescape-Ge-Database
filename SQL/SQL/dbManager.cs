@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 
 
-namespace SQL
+namespace GeDB
 {
     public static class dbManager
     {
@@ -38,7 +38,9 @@ namespace SQL
         {
             using (conn)
             {
+                
                 SqlCommand comm = new SqlCommand(q, conn);
+                
                 conn.Open();
                 try
                 {
@@ -90,12 +92,70 @@ namespace SQL
                 }
             }
         }
+        public static void WriteQuery(string q, int ID, int peak, int trough)
+        {
+
+
+            using (conn)
+            {
+
+                conn.Open();
+                try
+                {
+                    using (SqlCommand comm = new SqlCommand(q, conn))
+                    {
+
+                        comm.Parameters.Add(new SqlParameter("ID", ID));
+                        comm.Parameters.Add(new SqlParameter("peak", peak));
+                        comm.Parameters.Add(new SqlParameter("trough", trough));
+                        comm.Parameters.Add(new SqlParameter("priceDiff", (peak - trough)));
+                        comm.ExecuteNonQuery();
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            Console.WriteLine("If no message above, then it's a success");
+
+        }
+        public static void WriteQuery(string q, string name, int peak, int trough)
+        {
+
+
+            using (conn)
+            {
+
+                conn.Open();
+                try
+                {
+                    using (SqlCommand comm = new SqlCommand(q, conn))
+                    {
+
+                        comm.Parameters.Add(new SqlParameter("ID", ID));
+                        comm.Parameters.Add(new SqlParameter("peak", peak));
+                        comm.Parameters.Add(new SqlParameter("trough", trough));
+                        comm.Parameters.Add(new SqlParameter("priceDiff", (peak - trough)));
+                        comm.ExecuteNonQuery();
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            Console.WriteLine("If no message above, then it's a success");
+
+        }
         public static void Update(string dbName)
         {
 
         }
 
-        public static void Insert(JObject json)
+        public static void Insert()
         {
 
         }

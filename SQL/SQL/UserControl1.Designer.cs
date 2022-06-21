@@ -1,4 +1,4 @@
-﻿namespace SQL
+﻿namespace GeDB
 {
     partial class UserControl1
     {
