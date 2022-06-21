@@ -121,9 +121,15 @@ namespace GeDB
             Console.WriteLine("If no message above, then it's a success");
 
         }
-        public static void WriteQuery(string q, string name, int peak, int trough)
+        public static void WriteQuery(string q, int ID, string name, int highAlch, string memString)
         {
 
+            int members = 0;
+
+            if(memString == "true")
+            {
+                members = 1;
+            }
 
             using (conn)
             {
@@ -135,9 +141,9 @@ namespace GeDB
                     {
 
                         comm.Parameters.Add(new SqlParameter("ID", ID));
-                        comm.Parameters.Add(new SqlParameter("peak", peak));
-                        comm.Parameters.Add(new SqlParameter("trough", trough));
-                        comm.Parameters.Add(new SqlParameter("priceDiff", (peak - trough)));
+                        comm.Parameters.Add(new SqlParameter("name", name));
+                        comm.Parameters.Add(new SqlParameter("highAlch", highAlch));
+                        comm.Parameters.Add(new SqlParameter("members", members));
                         comm.ExecuteNonQuery();
                     }
 
