@@ -91,9 +91,13 @@ namespace GeDB
             return "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + itemID.ToString();
         }
 
-        protected static string GetWikiURL()
+        protected static string GetLatestWikiURL()
         {
             return "https://prices.runescape.wiki/api/v1/osrs/latest";
+        }
+        protected static string GetMappingWikiURL()
+        {
+            return "https://prices.runescape.wiki/api/v1/osrs/mapping"; 
         }
     }
 }

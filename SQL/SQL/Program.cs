@@ -15,23 +15,31 @@ namespace GeDB
     {
         static void Main(string[] args)
         {
-            JsonFunc func = new JsonFuncWikiAPI();
-            JsonFuncWikiAPI func2 = new JsonFuncWikiAPI();
+            /*
+             * 
+             * This inserts the first wiki URL
+             * 
+             * 
+             * 
+             JsonFuncWikiAPI func2 = new JsonFuncWikiAPI();
+            CommonQueryWikiApi q = new CommonQueryWikiApi();
 
             string itemID;
-            WikiLatestItem item;
-            JObject json = func2.testJson();
+        
+            JObject json = func2.GetJson();
 
             foreach(JProperty p in json["data"])
             {
                 itemID = p.Name;
+                Console.WriteLine("{0}", p.Name);
 
-                item = new WikiLatestItem(Convert.ToInt32(p.Name), Convert.ToInt32(json["data"][itemID]["high"].ToString()), Convert.ToInt32(json["data"][itemID]["low"].ToString()));
-                
+                dbManager.WriteQuery(q.GetInsertStringLatest(), Convert.ToInt32(p.Name), json["data"][itemID]["high"], json["data"][itemID]["low"]);
             }
-                
-               
-            
+             */
+
+
+
+
             Console.ReadLine();
 
         }

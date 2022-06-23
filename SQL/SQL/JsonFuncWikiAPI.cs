@@ -13,9 +13,9 @@ namespace GeDB
     class JsonFuncWikiAPI : JsonFunc
     {
 
-        public JObject testJson()
+        public JObject GetJson()
         {
-            return GetJson(GetWikiURL());
+            return GetJson(GetLatestWikiURL());
         }
 
        

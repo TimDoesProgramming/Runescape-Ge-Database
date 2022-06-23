@@ -34,11 +34,17 @@ namespace GeDB
             builder.InitialCatalog = initialCatalog;
             conn.ConnectionString = builder.ConnectionString;
         }
+
+
+        /*
+         
+             
+             */
         public static void WriteQuery(string q)
         {
             using (conn)
             {
-                
+                conn.ConnectionString = builder.ConnectionString;
                 SqlCommand comm = new SqlCommand(q, conn);
                 
                 conn.Open();
@@ -56,7 +62,7 @@ namespace GeDB
         {
             using (conn)
             {
-                
+                conn.ConnectionString = builder.ConnectionString;
                 conn.Open();
                 try
                 {
@@ -73,14 +79,14 @@ namespace GeDB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("If no message above, then it's a success");
+            Console.WriteLine("success");
 
         }
         public static void WriteQuery(SqlCommand c)
         {
             using (conn)
             {
-                
+                conn.ConnectionString = builder.ConnectionString;
                 conn.Open();
                 try
                 {
@@ -92,23 +98,41 @@ namespace GeDB
                 }
             }
         }
-        public static void WriteQuery(string q, int ID, int peak, int trough)
-        {
 
+        /*<PropertyGroup>
+  <Nullable>enable</Nullable>
+  <LangVersion>8.0</LangVersion>
+</PropertyGroup>
+*/
+        public static void WriteQuery(string q, int ID, JToken? jPeak, JToken? jTrough)
+        {
+            int peak, trough;
 
             using (conn)
             {
-
+                conn.ConnectionString = builder.ConnectionString;
                 conn.Open();
                 try
                 {
                     using (SqlCommand comm = new SqlCommand(q, conn))
                     {
+                        if(jPeak == null && jTrough == null)
+                        {
+                            peak = 0;
+                            trough = 0;
+                        }
+                        else
+                        {
+                            peak = jPeak == null ? jTrough.Value<int>() : jPeak.Value<int>();
+                            trough = jTrough == null ? jPeak.Value<int>() : jTrough.Value<int>(); 
+                        }
 
-                        comm.Parameters.Add(new SqlParameter("ID", ID));
-                        comm.Parameters.Add(new SqlParameter("peak", peak));
-                        comm.Parameters.Add(new SqlParameter("trough", trough));
-                        comm.Parameters.Add(new SqlParameter("priceDiff", (peak - trough)));
+
+
+                        comm.Parameters.Add(new SqlParameter("ID", (object)ID));
+                        comm.Parameters.Add(new SqlParameter("peak", (object)peak));
+                        comm.Parameters.Add(new SqlParameter("trough", (object)trough));
+                        comm.Parameters.Add(new SqlParameter("priceDiff", (object)(peak - trough)));
                         comm.ExecuteNonQuery();
                     }
 
@@ -118,7 +142,7 @@ namespace GeDB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("If no message above, then it's a success");
+            Console.WriteLine("success");
 
         }
         public static void WriteQuery(string q, int ID, string name, int highAlch, string memString)
@@ -133,17 +157,17 @@ namespace GeDB
 
             using (conn)
             {
-
+                conn.ConnectionString = builder.ConnectionString;
                 conn.Open();
                 try
                 {
                     using (SqlCommand comm = new SqlCommand(q, conn))
                     {
 
-                        comm.Parameters.Add(new SqlParameter("ID", ID));
+                        comm.Parameters.Add(new SqlParameter("ID", (object)ID));
                         comm.Parameters.Add(new SqlParameter("name", name));
-                        comm.Parameters.Add(new SqlParameter("highAlch", highAlch));
-                        comm.Parameters.Add(new SqlParameter("members", members));
+                        comm.Parameters.Add(new SqlParameter("highAlch", (object)highAlch));
+                        comm.Parameters.Add(new SqlParameter("members", (object)members));
                         comm.ExecuteNonQuery();
                     }
 
@@ -153,7 +177,7 @@ namespace GeDB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("If no message above, then it's a success");
+            Console.WriteLine("success");
 
         }
         public static void Update(string dbName)
@@ -168,7 +192,7 @@ namespace GeDB
         private static string GetConnectionString()
         {
             return "Server=(local);Integrated Security=SSPI;" +
-                "Initial Catalog=PracticeSQL";
+                "Initial Catalog=ExchangeDB";
         }
 
 
