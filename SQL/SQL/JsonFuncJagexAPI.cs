@@ -12,7 +12,7 @@ namespace GeDB
 
         public JObject GetFormattedJson(int itemNum)
         {
-            return ReformatJson(GetJson(GetJagexURL(itemNum)));
+            return ReformatJson(GetJObjJson(GetJagexURL(itemNum)));
         }
 
         //three issues, commas, decimals, and units

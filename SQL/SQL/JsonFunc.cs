@@ -12,7 +12,7 @@ namespace GeDB
 {
     class JsonFunc
     {
-        
+
         protected static void Repeat(ref int count, int repeat, ref bool exc)
         {
 
@@ -24,16 +24,13 @@ namespace GeDB
                 count++;
             }
         }
-        public static JObject GetJson(string url)
+        public static string GetPreJson(string url)
         {
-
             string preJson = "";
             bool exc = true;
             int count = 0;
             int repeat = 3;
-            JObject json = null;
 
-            //probably needs to have a check to see if the text is real
             using (WebClient wc = new WebClient())
             {
                 //the website writes the json as text
@@ -47,8 +44,6 @@ namespace GeDB
 
                         preJson = wc.DownloadString(url);
 
-                        //converts the string into a json object
-                        json = JObject.Parse(preJson);
                     }
                     catch (WebException e)
                     {
@@ -67,12 +62,7 @@ namespace GeDB
                         //When cast to into and int, it also has the numeric code associated
                         Console.WriteLine(e.Message);
                     }
-                    catch (Newtonsoft.Json.JsonReaderException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        Repeat(ref count, repeat, ref exc);
 
-                    }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
@@ -82,10 +72,44 @@ namespace GeDB
                 } while (exc);
 
             }
+            return preJson;
+        }
+
+
+        public static JObject GetJObjJson(string url)
+        {
+            JObject json = null;
+
+            try
+            {
+                //converts the string into a json object
+                json = JObject.Parse(GetPreJson(url));
+            }
+            catch (Newtonsoft.Json.JsonReaderException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             return json;
         }
 
-        
+        public static JArray GetJArrJson(string url)
+        {
+            JArray json = null;
+
+            try
+            {
+                //converts the string into a json object
+                json = JArray.Parse(GetPreJson(url));
+            }
+            catch (Newtonsoft.Json.JsonReaderException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return json;
+        }
+
         protected static string GetJagexURL(int itemID)
         {
             return "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + itemID.ToString();
@@ -97,7 +121,8 @@ namespace GeDB
         }
         protected static string GetMappingWikiURL()
         {
-            return "https://prices.runescape.wiki/api/v1/osrs/mapping"; 
+            return "https://prices.runescape.wiki/api/v1/osrs/mapping";
         }
+
     }
 }

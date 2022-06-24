@@ -9,18 +9,6 @@ namespace GeDB
     class CommonQueryWikiApi : CommonQuery
     {
 
-
-        public string GetExceptString()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetFromOpenJson()
-        {
-            throw new NotImplementedException();
-            
-        }
-
         public string GetInsertStringLatest()
         {
             return @"
@@ -31,13 +19,16 @@ namespace GeDB
         {
             return @"
                 UPDATE wiki.items
-                SET name = @name, highAlch = @highAlch, members = @members 
+                SET itemName = @name, highAlch = @highAlch, members = @members 
                 WHERE ID = @ID";
         }
 
-        public  string GetUpdateString()
+        public  string GetUpdateStringLAtest()
         {
-            throw new NotImplementedException();
+            return @"
+                UPDATE wiki.items
+                SET peak = @peak, trough = @trough, priceDiff = @priceDiff)
+                WHERE ID = @ID";
         }
     }
 }

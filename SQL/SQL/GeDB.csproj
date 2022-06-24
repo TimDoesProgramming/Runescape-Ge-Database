@@ -93,9 +93,7 @@
     <Compile Include="gui.Designer.cs">
       <DependentUpon>gui.cs</DependentUpon>
     </Compile>
-    <Compile Include="Iitem.cs" />
     <Compile Include="WikiLatestItem.cs" />
-    <Compile Include="ItemList.cs" />
     <Compile Include="JsonFunc.cs" />
     <Compile Include="JsonFuncJagexAPI.cs" />
     <Compile Include="JsonFuncWikiAPI.cs" />
@@ -103,12 +101,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GenericSingleton.cs" />
     <Compile Include="CommonQuery.cs" />
-    <Compile Include="UserControl1.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControl1.Designer.cs">
-      <DependentUpon>UserControl1.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

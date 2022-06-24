@@ -99,11 +99,7 @@ namespace GeDB
             }
         }
 
-        /*<PropertyGroup>
-  <Nullable>enable</Nullable>
-  <LangVersion>8.0</LangVersion>
-</PropertyGroup>
-*/
+
         public static void WriteQuery(string q, int ID, JToken? jPeak, JToken? jTrough)
         {
             int peak, trough;
@@ -180,22 +176,44 @@ namespace GeDB
             Console.WriteLine("success");
 
         }
-        public static void Update(string dbName)
-        {
 
+        /* Part one
+          * 
+          * This gets the json from the WIKI API endpoint
+          * iterates through the JContainer with key ["data"]
+          * for Each JProperty in the JContainer the program collects the key/property name as this was the item id and is also the primary key in the DB
+          * then the information for each item id is passed to the DB manager who runs the insert query for each item 
+          */
+        public static void FirstWikiInsert()
+        {
+            JsonFuncWikiAPI wikiFunc = new JsonFuncWikiAPI();
+            CommonQueryWikiApi q = new CommonQueryWikiApi();
+
+            string itemID;
+
+            JObject json = wikiFunc.GetWikiLatestJson();
+
+            foreach (JProperty p in json["data"])
+            {
+                itemID = p.Name;
+                Console.WriteLine("{0}", p.Name);
+
+                WriteQuery(q.GetInsertStringLatest(), Convert.ToInt32(p.Name), json["data"][itemID]["high"], json["data"][itemID]["low"]);
+            }
         }
 
-        public static void Insert()
+        public static void WikiUpdateMapping()
         {
+            JsonFuncWikiAPI wikiFunc = new JsonFuncWikiAPI();
+            CommonQueryWikiApi q = new CommonQueryWikiApi();
 
+            JArray json = wikiFunc.GetWikiMappingJson();
+
+            foreach (JObject j in json)
+            {
+                Console.WriteLine("{0}", j["id"]);
+                WriteQuery(q.GetUpdateStringMapping(), Convert.ToInt32(j["id"]), j["name"].ToString(), Convert.ToInt32(j["highalch"]), j["members"].ToString());
+            }
         }
-        private static string GetConnectionString()
-        {
-            return "Server=(local);Integrated Security=SSPI;" +
-                "Initial Catalog=ExchangeDB";
-        }
-
-
     }
-
 }

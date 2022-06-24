@@ -13,11 +13,14 @@ namespace GeDB
     class JsonFuncWikiAPI : JsonFunc
     {
 
-        public JObject GetJson()
+        public JObject GetWikiLatestJson()
         {
-            return GetJson(GetLatestWikiURL());
+            return GetJObjJson(GetLatestWikiURL());
         }
 
-       
+        public JArray GetWikiMappingJson()
+        {
+            return GetJArrJson(GetMappingWikiURL());
+        }
     }
 }
