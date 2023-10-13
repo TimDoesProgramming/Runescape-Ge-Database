@@ -76,14 +76,14 @@ namespace GeDB
         }
 
 
-        public static JObject GetJObjJson(string url)
+        public static JObject GetJObjJson(string preJson)
         {
             JObject json = null;
 
             try
             {
                 //converts the string into a json object
-                json = JObject.Parse(GetPreJson(url));
+                json = JObject.Parse(GetPreJson(preJson));
             }
             catch (Newtonsoft.Json.JsonReaderException e)
             {
@@ -93,14 +93,14 @@ namespace GeDB
             return json;
         }
 
-        public static JArray GetJArrJson(string url)
+        public static JArray GetJArrJson(string preJson)
         {
             JArray json = null;
 
             try
             {
                 //converts the string into a json object
-                json = JArray.Parse(GetPreJson(url));
+                json = JArray.Parse(GetPreJson(preJson));
             }
             catch (Newtonsoft.Json.JsonReaderException e)
             {

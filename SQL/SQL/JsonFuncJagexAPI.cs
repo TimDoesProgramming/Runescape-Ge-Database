@@ -76,13 +76,7 @@ namespace GeDB
 
             return result;
         }
-        /*
-        public static string readJson(string json)
-        {
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
-        }
-        */
 
 
     }

@@ -10,8 +10,6 @@ namespace GeDB
     class CommonQuery
     {
 
-
-
         public string GetCreateString(string dbName)
         {
             return (@"USE master
@@ -30,10 +28,16 @@ namespace GeDB
             return "CREATE SCHEMA " + schemaName;
         }
 
+        public string getItem(string id)
+        {
+            return @"SELECT * FROM wiki.items
+                    WHERE ID = "+ id;
+        }
 
-
-
-       
-
+        public string getItems(string id)
+        {
+            return @"SELECT * FROM wiki.items
+                    WHERE ID = " + id;
+        }
     }
 }

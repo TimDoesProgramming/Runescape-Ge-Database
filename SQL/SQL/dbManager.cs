@@ -37,7 +37,7 @@ namespace GeDB
 
 
         /*
-         
+         generic execute query
              
              */
         public static void WriteQuery(string q)
@@ -58,6 +58,7 @@ namespace GeDB
                 }
             }
         }
+        //Execute query for Jagex API
         public static void WriteQuery(string q, JObject json)
         {
             using (conn)
@@ -79,27 +80,10 @@ namespace GeDB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("success");
-
         }
-        public static void WriteQuery(SqlCommand c)
-        {
-            using (conn)
-            {
-                conn.ConnectionString = builder.ConnectionString;
-                conn.Open();
-                try
-                {
-                   c.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-        }
+        
 
-
+        //Execute query for Latest Wiki
         public static void WriteQuery(string q, int ID, JToken? jPeak, JToken? jTrough)
         {
             int peak, trough;
@@ -123,8 +107,6 @@ namespace GeDB
                             trough = jTrough == null ? jPeak.Value<int>() : jTrough.Value<int>(); 
                         }
 
-
-
                         comm.Parameters.Add(new SqlParameter("ID", (object)ID));
                         comm.Parameters.Add(new SqlParameter("peak", (object)peak));
                         comm.Parameters.Add(new SqlParameter("trough", (object)trough));
@@ -138,9 +120,8 @@ namespace GeDB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("success");
-
         }
+        //execute query for mapping Wiki
         public static void WriteQuery(string q, int ID, string name, int highAlch, string memString)
         {
 
@@ -173,7 +154,6 @@ namespace GeDB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("success");
 
         }
 
@@ -196,8 +176,6 @@ namespace GeDB
             foreach (JProperty p in json["data"])
             {
                 itemID = p.Name;
-                Console.WriteLine("{0}", p.Name);
-
                 WriteQuery(q.GetInsertStringLatest(), Convert.ToInt32(p.Name), json["data"][itemID]["high"], json["data"][itemID]["low"]);
             }
         }
@@ -213,6 +191,21 @@ namespace GeDB
             {
                 Console.WriteLine("{0}", j["id"]);
                 WriteQuery(q.GetUpdateStringMapping(), Convert.ToInt32(j["id"]), j["name"].ToString(), Convert.ToInt32(j["highalch"]), j["members"].ToString());
+            }
+        }
+        public static void WikiUpdateLatest()
+        {
+            JsonFuncWikiAPI wikiFunc = new JsonFuncWikiAPI();
+            CommonQueryWikiApi q = new CommonQueryWikiApi();
+            string itemID;
+            JObject json = wikiFunc.GetWikiLatestJson();
+
+
+            foreach(JProperty p in json["data"])
+            {
+                itemID = p.Name;
+                Console.WriteLine("{0}", p.Name);
+                WriteQuery(q.GetUpdateStringLatest(), Convert.ToInt32(p.Name), json["data"][itemID]["high"], json["data"][itemID]["low"]);
             }
         }
     }

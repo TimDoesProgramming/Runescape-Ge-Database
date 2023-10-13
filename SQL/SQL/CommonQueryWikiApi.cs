@@ -23,11 +23,11 @@ namespace GeDB
                 WHERE ID = @ID";
         }
 
-        public  string GetUpdateStringLAtest()
+        public  string GetUpdateStringLatest()
         {
             return @"
                 UPDATE wiki.items
-                SET peak = @peak, trough = @trough, priceDiff = @priceDiff)
+                SET peak = @peak, trough = @trough, priceDiff = @priceDiff
                 WHERE ID = @ID";
         }
     }
